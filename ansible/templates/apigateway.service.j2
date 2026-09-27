@@ -1,0 +1,20 @@
+[Unit]
+Description=CSCI644 API Gateway
+After=network.target quote.service
+Requires=quote.service
+
+[Service]
+User={{ app_user }}
+WorkingDirectory={{ app_dir }}/ApiGateway
+Environment=QUOTES_API=http://127.0.0.1:5000
+Environment=PORT=3000
+Environment=APP_ENV={{ app_env }}
+Environment=APP_VERSION={{ app_version }}
+Environment=BUILD_SHA={{ build_sha }}
+Environment=BUILD_TIME={{ build_time }}
+ExecStart=/usr/bin/npm run start
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

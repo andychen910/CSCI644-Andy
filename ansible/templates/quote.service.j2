@@ -1,0 +1,27 @@
+[Unit]
+Description=CSCI644 Quote Service
+After=mongod.service redis-server.service
+Requires=mongod.service redis-server.service
+
+[Service]
+User={{ app_user }}
+WorkingDirectory={{ app_dir }}/QuoteService
+Environment=MONGO_HOST=127.0.0.1
+Environment=MONGO_PORT=27017
+Environment=MONGO_USER={{ mongo_user }}
+Environment=MONGO_PASSWORD={{ mongo_password }}
+Environment=MONGO_AUTH_SOURCE=admin
+Environment=MONGO_DB={{ mongo_db }}
+Environment=MONGO_COLLECTION={{ mongo_collection }}
+Environment=REDIS_HOST=127.0.0.1
+Environment=REDIS_PORT=6379
+Environment=APP_ENV={{ app_env }}
+Environment=APP_VERSION={{ app_version }}
+Environment=BUILD_SHA={{ build_sha }}
+Environment=BUILD_TIME={{ build_time }}
+ExecStart={{ app_dir }}/QuoteService/venv/bin/python {{ app_dir }}/QuoteService/main.py
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
