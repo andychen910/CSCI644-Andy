@@ -33,6 +33,30 @@
         state: present
       register: gcp_instance
 
+    - name: Add the Assignment 2 HTTP network tag
+      ansible.builtin.command: >-
+        gcloud compute instances add-tags {{ instance_name }}
+        --project={{ project_id }} --zone={{ zone }}
+        --tags=assignment2-http
+      register: add_http_tag
+      changed_when: "'Updated' in add_http_tag.stdout"
+
+    - name: Check for the Assignment 2 HTTP firewall rule
+      ansible.builtin.command: >-
+        gcloud compute firewall-rules describe assignment2-allow-http
+        --project={{ project_id }}
+      register: http_firewall
+      changed_when: false
+      failed_when: false
+
+    - name: Create the Assignment 2 HTTP firewall rule
+      ansible.builtin.command: >-
+        gcloud compute firewall-rules create assignment2-allow-http
+        --project={{ project_id }} --network=default
+        --direction=INGRESS --action=ALLOW --rules=tcp:80
+        --source-ranges=0.0.0.0/0 --target-tags=assignment2-http
+      when: http_firewall.rc != 0
+
     - name: Initialize gcloud SSH access and generate the local key if needed
       ansible.builtin.command: >-
         gcloud compute ssh {{ ssh_user }}@{{ instance_name }}
@@ -239,7 +263,10 @@
         mode: '0600'
 
     - name: Run idempotent MongoDB seed script
-      ansible.builtin.shell: mongosh --quiet < MongoDB/init-db.js
+      ansible.builtin.shell: >-
+        mongosh --quiet --username {{ mongo_user }}
+        --password {{ mongo_password }}
+        --authenticationDatabase admin < MongoDB/init-db.js
       args:
         chdir: "{{ app_dir }}"
 
