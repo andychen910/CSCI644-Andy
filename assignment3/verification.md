@@ -17,4 +17,4 @@ All contract tests passed for http://localhost:8080
 
 I also ran the MongoDB seed script again. It still had 50 starter quotes afterward, so it did not add duplicates.
 
-I clicked "Get quote" in the browser twice. Both clicks showed a quote, and the "Quotes Received" count went up.
+I clicked "Get quote" in the browser after simplifying the frontend. It showed a quote and the "Quotes Received" count. The contract test also checked that the count increases on the next request.

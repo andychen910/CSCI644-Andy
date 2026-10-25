@@ -30,7 +30,24 @@
         </div>
     </section>
 
-    <!--Scripts-->
+    <script>
+      document.getElementById('btn').addEventListener('click', async function () {
+        const box = document.getElementById('quote');
+
+        try {
+          const response = await fetch('/api/randomquote');
+          if (!response.ok) throw new Error('Could not get a quote');
+
+          const data = await response.json();
+          box.className = 'notification is-link';
+          box.textContent = data.quote.quote + ' — ' + data.quote.by +
+            ' | Quotes Received: ' + data.quote.count;
+        } catch (error) {
+          box.className = 'notification is-danger';
+          box.textContent = error.message;
+        }
+      });
+    </script>
 
   </body>
 </html>
