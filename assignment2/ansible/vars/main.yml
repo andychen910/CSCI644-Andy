@@ -1,0 +1,16 @@
+project_id: vivid-router-421622
+zone: us-west1-a
+instance_name: csci644-a2-microservice
+machine_type: e2-micro
+app_dir: /opt/simple-microservice-example
+app_repo: https://github.com/CSUChico-CSCI644/simple-microservice-example.git
+app_user: microservice
+mongo_user: root
+mongo_password: pass
+mongo_db: quote_db
+mongo_collection: quote_tb
+app_env: production
+app_version: "1.1.0"
+build_sha: assignment2
+build_time: manual
+ssh_user: andy0981138530
