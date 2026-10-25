@@ -4,7 +4,7 @@ I started the services with `docker compose up --build -d` and then ran this fro
 
 ```text
 $ make test-e2e BASE_URL=http://localhost:8080
-python3 tests/e2e.py "http://localhost:8080"
+python3 assignment3/tests/e2e.py "http://localhost:8080"
 PASS test_frontend
 PASS test_status_and_request_id
 PASS test_health_and_readiness
@@ -16,3 +16,5 @@ All contract tests passed for http://localhost:8080
 ```
 
 I also ran the MongoDB seed script again. It still had 50 starter quotes afterward, so it did not add duplicates.
+
+I clicked "Get quote" in the browser twice. Both clicks showed a quote, and the "Quotes Received" count went up.
